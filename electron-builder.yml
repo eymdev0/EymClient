@@ -1,0 +1,27 @@
+appId: com.eymdev.eymclient
+productName: EymClient
+asar: true
+directories:
+  output: dist
+  buildResources: build
+files:
+  - src/**/*
+  - package.json
+  - build/**/*
+win:
+  target:
+    - target: nsis
+      arch: x64
+  icon: build/icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  deleteAppDataOnUninstall: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: EymClient
+publish:
+  provider: generic
+  url: https://client.eymdev.com.tr/updates/
+artifactName: EymClient-Setup-${version}.${ext}

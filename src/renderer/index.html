@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://piston-meta.mojang.com https://api.modrinth.com https://cdn.modrinth.com https://launcher-meta.mojang.com;">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EymClient</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="scene"></div>
+<div class="grain"></div>
+<div class="window">
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon">E</div><div><b>EYM<span>CLIENT</span></b><small>MINECRAFT PERFORMANCE LAUNCHER</small></div></div>
+    <div class="topbar-right"><div class="online"><i></i><span id="discordState">Discord hazır</span></div><div class="window-buttons"><button id="minimizeBtn">—</button><button id="maximizeBtn">□</button><button id="closeBtn" class="danger">×</button></div></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="profile-mini" id="miniProfile"><div class="avatar">E</div><div><strong>Misafir</strong><span>Hesap seçilmedi</span></div><button id="miniAccount">⌄</button></div>
+      <nav>
+        <button class="nav active" data-page="home"><span>⌂</span>Ana Sayfa</button>
+        <button class="nav" data-page="accounts"><span>◉</span>Hesaplar <em id="accountCount">0</em></button>
+        <button class="nav" data-page="versions"><span>▦</span>Sürümler</button>
+        <button class="nav" data-page="optimize"><span>✦</span>Optimize</button>
+        <button class="nav" data-page="modrinth"><span>◆</span>Modrinth</button>
+        <button class="nav" data-page="servers"><span>◈</span>Sunucular</button>
+        <button class="nav" data-page="settings"><span>⚙</span>Ayarlar</button>
+      </nav>
+      <div class="side-bottom"><div class="storage"><span>EY MCLIENT STORAGE</span><strong>.eymclient</strong><small id="storagePath">%APPDATA%\...</small></div><div class="version-badge" id="appVersion">v2.2.0</div></div>
+    </aside>
+
+    <main class="main">
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <div class="hero-image"><div class="mountain m1"></div><div class="mountain m2"></div><div class="sun"></div><div class="hero-overlay"></div><div class="hero-copy"><span class="kicker">EYMCLIENT / PERFORMANCE EDITION</span><h1>Minecraft'ı<br><strong>kendi tarzında</strong> başlat.</h1><p>Hesaplarını, sürümlerini ve optimizasyonunu tek bir premium panelden yönet.</p><div class="hero-actions"><button id="playBtn" class="play"><span>▶</span> OYNA</button><button class="ghost" data-page-jump="versions">Sürümü değiştir</button></div></div><div class="hero-version"><small>AKTİF PROFİL</small><b id="homeVersion">1.20.1</b><span id="homeLoader">Fabric</span></div></div>
+        </div>
+        <div class="home-grid">
+          <div class="panel account-panel"><div class="panel-head"><div><small>AKTİF HESAP</small><h2 id="homeAccount">Hesap seç</h2></div><button class="link-btn" data-page-jump="accounts">Hesapları yönet →</button></div><div class="account-line"><div class="big-avatar" id="homeAvatar">E</div><div><b id="homeAccountType">Oturum bekleniyor</b><span id="homeAccountMeta">Microsoft veya offline hesap ekle</span></div></div></div>
+          <div class="panel performance-panel"><div class="panel-head"><div><small>PERFORMANS</small><h2>Eym Engine</h2></div><span class="green-dot">OPTIMIZED</span></div><div class="metrics"><div><b id="ramMetric">4 GB</b><span>RAM</span></div><div><b id="modMetric">0</b><span>MOD</span></div><div><b id="presenceMetric">ON</b><span>DISCORD</span></div></div></div>
+          <div class="panel sponsor-panel-home"><div class="panel-head"><div><small>SPONSOR SUNUCULAR</small><h2>Topluluğa katıl.</h2></div><span class="sponsor-badge">SABİT</span></div><div id="homeSponsors" class="sponsor-list"><div class="loading-card">Sponsor sunucular yükleniyor...</div></div></div>
+        </div>
+        <div class="panel activity"><div class="panel-head"><div><small>LAUNCH ACTIVITY</small><h2>Canlı durum</h2></div><span id="statusText">Hazır</span></div><div class="progress-track"><div id="progressBar"></div></div><div class="activity-bottom"><span id="progressText">0%</span><span id="statusMeta">Minecraft bekliyor</span></div></div>
+      </section>
+
+      <section class="page" id="page-accounts">
+        <div class="page-heading"><div><span>ACCOUNT CENTER</span><h1>Hesapların</h1><p>Birden fazla hesabı kaydet, seç ve tek tıkla Minecraft'a gir.</p></div><button class="primary-btn" id="addMicrosoft">＋ Microsoft hesabı</button></div>
+        <div class="account-layout"><div class="accounts-list" id="accountsList"></div><div class="add-account panel"><div class="panel-head"><div><small>OFFLINE PROFİL</small><h2>Hızlı hesap ekle</h2></div></div><p>Yerel/offline sunucular için bir profil oluştur.</p><input id="offlineName" maxlength="16" placeholder="Oyuncu adı"><button class="primary-btn full" id="addOffline">Offline hesabı ekle</button><div class="note">Premium hesaplar Microsoft OAuth ile doğrulanır. Parolan EymClient'a girmez.</div></div></div>
+      </section>
+
+      <section class="page" id="page-versions">
+        <div class="page-heading"><div><span>VERSION MANAGER</span><h1>Sürümler</h1><p>Mojang'ın güncel sürüm listesinden profil seç. Her profil kendi .minecraft klasörüne sahiptir.</p></div><button class="secondary-btn" id="refreshVersions">↻ Yenile</button></div>
+        <div class="version-toolbar"><div class="search"><span>⌕</span><input id="versionSearch" placeholder="Sürüm ara..." /></div><div class="filter-tabs"><button class="filter active" data-filter="release">Release</button><button class="filter" data-filter="all">Tümü</button></div></div>
+        <div class="versions-grid" id="versionsGrid"><div class="loading-card">Sürümler yükleniyor...</div></div>
+      </section>
+
+      <section class="page" id="page-optimize">
+        <div class="page-heading"><div><span>EYM OPTIMIZATION ENGINE</span><h1>Performansı ayarla.</h1><p>Seçtiğin Minecraft sürümüne ve Fabric loader'a uygun modları Modrinth üzerinden otomatik kur.</p></div></div>
+        <div class="optimize-grid">
+          <div class="profile-card" data-profile="competitive"><div class="profile-icon">⚡</div><small>REKABETÇİ</small><h2>Competitive</h2><p>FPS ve düşük gecikme odaklı.</p><ul><li>Sodium</li><li>Lithium</li><li>FerriteCore</li><li>ImmediatelyFast</li><li>EntityCulling</li><li>ModernFix</li></ul><button class="primary-btn full optimize-btn">Bu profili kur</button></div>
+          <div class="profile-card featured" data-profile="balanced"><div class="profile-icon">◆</div><small>DENGELİ</small><h2>Balanced</h2><p>FPS + stabilite + günlük kullanım.</p><ul><li>Sodium</li><li>Lithium</li><li>FerriteCore</li><li>ImmediatelyFast</li><li>EntityCulling</li><li>ModernFix</li></ul><button class="primary-btn full optimize-btn">Bu profili kur</button></div>
+          <div class="profile-card" data-profile="visual"><div class="profile-icon">✦</div><small>GÖRSEL</small><h2>Visual+</h2><p>Görselliği koruyarak performans.</p><ul><li>Sodium Extra</li><li>Sodium</li><li>Lithium</li><li>EntityCulling</li></ul><button class="primary-btn full optimize-btn">Bu profili kur</button></div>
+          <div class="profile-card" data-profile="essentials"><div class="profile-icon">E</div><small>EYM ÖZEL</small><h2>Eym Essentials</h2><p>Günlük kullanım için seçilmiş paket.</p><ul><li>Dynamic FPS</li><li>Mod Menu</li><li>Sodium</li><li>ModernFix</li></ul><button class="primary-btn full optimize-btn">Bu profili kur</button></div>
+        </div>
+        <div class="panel optifine-panel"><div><small>KLASİK DESTEK</small><h2>OptiFine</h2><p>Resmi kaynaktan indirdiğin uyumlu OptiFine JAR dosyasını seçili profilin mods klasörüne ekle.</p></div><button class="secondary-btn" id="optifineBtn">OptiFine .jar seç</button></div>
+        <div class="panel quick-mods-panel">
+          <div class="panel-head"><div><small>HIZLI KURULUM</small><h2>Mod & Shader Merkezi</h2><p>Seçili Fabric profiline uyumlu sürümü Modrinth'ten bulup tek tıkla kur.</p></div><span class="green-dot">MODRINTH</span></div>
+          <div class="quick-mods" id="quickMods"><div class="loading-card">Modlar hazırlanıyor...</div></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-modrinth">
+        <div class="page-heading"><div><span>MODRINTH MOD CENTER</span><h1>Modrinth'ten istediğini indir.</h1><p>Modrinth'in güncel mod kataloğunu ara, Minecraft sürümünü ve loader'ı seç, uyumlu sürümü kur.</p></div></div>
+        <div class="modrinth-toolbar">
+          <div class="search mod-search"><span>⌕</span><input id="modSearch" placeholder="Örn. Sodium, Iris, Xaero's..." autocomplete="off"></div>
+          <select id="modVersion"></select><select id="modLoader"><option value="fabric">Fabric</option><option value="forge">Forge</option><option value="neoforge">NeoForge</option></select><button class="primary-btn" id="modSearchBtn">Ara</button>
+        </div>
+        <div class="modrinth-meta"><span id="modSearchMeta">Aramak için bir mod adı yaz.</span><div><button class="secondary-btn" id="modPrev">←</button><button class="secondary-btn" id="modNext">→</button></div></div>
+        <div class="modrinth-grid" id="modResults"><div class="loading-card">Modrinth kataloğu hazır.</div></div>
+      </section>
+
+      <section class="page" id="page-servers">
+        <div class="page-heading"><div><span>SPONSOR SERVERS</span><h1>Sponsor sunucular</h1><p>EymClient tarafından öne çıkarılan sponsor sunucular Minecraft'ın sunucu listesine otomatik olarak en üst sırada eklenir.</p></div><button class="secondary-btn" id="syncSponsors">↻ Senkronize et</button></div>
+        <div class="panel sponsor-info"><div><small>SABİT LİSTE</small><h2>Sunucular listesinin en üstünde</h2><p>Sponsor sunucular EymClient her Minecraft profili başlatıldığında tekrar en üste alınır. Sponsorları <code>data/sponsors.json</code> veya uzak yapılandırmadan yönetebilirsin.</p></div><span class="sponsor-badge">PINNED</span></div>
+        <div id="sponsorGrid" class="sponsor-grid"><div class="loading-card">Sponsor sunucular yükleniyor...</div></div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-heading"><div><span>CLIENT SETTINGS</span><h1>Ayarlar</h1><p>EymClient davranışını ve Discord durumunu özelleştir.</p></div></div>
+        <div class="settings-grid">
+          <div class="panel setting-panel"><div class="panel-head"><div><small>GAME</small><h2>Başlatma</h2></div></div><label>RAM <strong id="ramValue">4 GB</strong><input id="ram" type="range" min="2" max="16" value="4"></label><div class="setting-row"><div><b>Loader</b><span>Varsayılan mod loader</span></div><select id="loader"><option value="fabric">Fabric</option><option value="vanilla">Vanilla</option></select></div><div class="setting-row"><div><b>Aktif sürüm</b><span>Başlatılacak profil</span></div><select id="versionSelect"></select></div></div>
+          <div class="panel setting-panel"><div class="panel-head"><div><small>DISCORD</small><h2>Rich Presence</h2></div><span id="discordBadge" class="green-dot">AKTİF</span></div><label>Discord Application ID<input id="discordClientId" placeholder="123456789012345678"></label><div class="toggle-row"><div><b>Discord'da oynuyor göster</b><span>Minecraft sürümü ve hesap adı görüntülenir.</span></div><button class="toggle on" id="discordToggle"><i></i></button></div><button class="secondary-btn full" id="discordConnect">Discord'a bağlan</button></div>
+        </div>
+      </section>
+
+      <section class="console-panel"><div class="console-head"><span>LAUNCHER LOG</span><button id="clearLog">Temizle</button></div><pre id="log">EymClient hazır.</pre></section>
+    </main>
+  </div>
+  <div class="toast" id="toast"><b id="toastTitle">EymClient</b><span id="toastText"></span></div>
+  <div class="update-toast" id="updateToast"><div><b>Yeni sürüm hazır</b><span id="updateVersion"></span></div><button id="restartBtn">Yeniden başlat</button></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

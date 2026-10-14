@@ -1,0 +1,1 @@
+No project-level open-source license has been selected. Choose and add one before public release, after confirming rights to the original code/assets. Third-party dependencies retain their own licenses.

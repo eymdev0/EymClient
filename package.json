@@ -1,0 +1,77 @@
+{
+  "name": "eymclient",
+  "version": "2.4.0",
+  "description": "EymClient - premium Minecraft launcher with multi-account support, sponsor servers and full Modrinth mod center.",
+  "author": "EymClient",
+  "type": "module",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build": "electron-builder --win nsis --x64 --publish never",
+    "build:dir": "electron-builder --dir --publish never",
+    "release": "electron-builder --win nsis --x64 --publish always"
+  },
+  "dependencies": {
+    "@xhayper/discord-rpc": "^1.5.1",
+    "electron-updater": "^6.8.9",
+    "minecraft-launcher-core": "^3.18.2",
+    "msmc": "^5.0.5",
+    "tomate-loaders": "^2.0.2"
+  },
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_GITHUB_USERNAME/EymClient.git"
+  },
+  "build": {
+    "appId": "com.eymdev.eymclient",
+    "productName": "EymClient",
+    "asar": true,
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "build/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "EymClient"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://client.eymdev.com.tr/updates/"
+      }
+    ],
+    "artifactName": "EymClient-Setup-${version}.${ext}"
+  },
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "https://client.eymdev.com.tr/updates/"
+    }
+  ]
+}
